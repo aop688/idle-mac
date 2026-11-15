@@ -6,11 +6,8 @@ APP=build/Idle.app
 rm -rf build
 mkdir -p "$APP/Contents/MacOS"
 
-# 分别编译 arm64 / x86_64，再合并为通用二进制
-for arch in arm64 x86_64; do
-  swiftc -O -target "$arch-apple-macos11.0" Sources/main.swift -o "build/Idle-$arch"
-done
-lipo -create -output "$APP/Contents/MacOS/Idle" build/Idle-arm64 build/Idle-x86_64
+# 仅编译 Apple Silicon (arm64)
+swiftc -O -target arm64-apple-macos11.0 Sources/main.swift -o "$APP/Contents/MacOS/Idle"
 strip -x "$APP/Contents/MacOS/Idle"
 cp Info.plist "$APP/Contents/Info.plist"
 
