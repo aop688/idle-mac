@@ -64,17 +64,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func render() {
         guard let button = item.button else { return }
-        // 关闭：闭眼（允许休眠）；开启：睁眼（保持唤醒）
-        let name = active ? "eye" : "eye.slash"
-        if let img = NSImage(systemSymbolName: name, accessibilityDescription: "Idle") {
-            img.isTemplate = true   // 自动适配深色/浅色菜单栏
-            button.image = img
+        // 关闭：灰色月亮 zzz（跟随菜单栏颜色）；开启：橙色太阳（醒目）
+        let name = active ? "sun.max.fill" : "moon.zzz"
+        if let sym = NSImage(systemSymbolName: name, accessibilityDescription: "Idle") {
+            if active {
+                button.image = tinted(sym, .systemOrange)
+            } else {
+                sym.isTemplate = true   // 自动适配深色/浅色菜单栏
+                button.image = sym
+            }
             button.title = ""
         } else {
             button.image = nil
             button.title = active ? "●" : "○"
         }
         button.toolTip = active ? "保持唤醒：开（点击关闭）" : "保持唤醒：关（点击开启）"
+    }
+
+    // 给 SF Symbol 上色（非 template，保持固定颜色）
+    private func tinted(_ image: NSImage, _ color: NSColor) -> NSImage {
+        let out = NSImage(size: image.size, flipped: false) { rect in
+            image.draw(in: rect)
+            color.set()
+            rect.fill(using: .sourceAtop)
+            return true
+        }
+        out.isTemplate = false
+        return out
     }
 }
 
