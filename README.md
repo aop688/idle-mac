@@ -2,7 +2,7 @@
 
 极简 macOS 菜单栏防休眠工具。
 
-- 左键点击：开启 / 关闭防休眠（月亮 ⇄ 橙色太阳）
+- 左键点击：开启 / 关闭防休眠（静止空心球 ⇄ 牛顿摆动画）
 - 右键（或 Control+点击）：退出
 
 等价于 `caffeinate -di`：阻止屏幕休眠和系统空闲休眠。
@@ -19,3 +19,6 @@
 应用未经 Apple 公证，下载后若提示“已损坏/无法验证”，执行：
 
     xattr -cr /Applications/Idle.app
+
+## 致谢
+菜单栏的牛顿摆动画参考 LDRS (MIT)，详见 THIRD_PARTY_NOTICES.md。
